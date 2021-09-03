@@ -17,6 +17,7 @@ class addDemo(unittest.TestCase):
         driver.find_element_by_id("su").click()
         sleep(5)
         self.assertEqual("51testing_百度搜索", driver.title)
+        sleep(5)
 
     def tearDown(self):
         self.driver.quit()
