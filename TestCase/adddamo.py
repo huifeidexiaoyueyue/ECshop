@@ -4,7 +4,7 @@ from selenium import webdriver
 
 
 class addDemo(unittest.TestCase):
-    '''登录流程测试'''
+    '''百度测试流程'''
     def setUp(self):
         self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(10)
