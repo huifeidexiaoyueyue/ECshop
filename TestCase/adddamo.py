@@ -9,6 +9,7 @@ class addDemo(unittest.TestCase):
         self.driver = webdriver.Chrome()
         self.driver.implicitly_wait(10)
         self.base_url='https://www.baidu.com/'
+        sleep(5)
 
     def test_something(self):
         driver = self.driver
@@ -22,5 +23,5 @@ class addDemo(unittest.TestCase):
         self.driver.quit()
 
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()
