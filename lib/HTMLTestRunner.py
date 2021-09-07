@@ -1,6 +1,6 @@
 """
 A TestRunner for use with the Python unit testing framework. It
-generates a HTML report to show the result at a glance.
+generates a HTML Report to show the result at a glance.
 
 The simplest way to use this is to invoke its main method. E.g.
 
@@ -21,7 +21,7 @@ HTMLTestRunner is a counterpart to unittest's TextTestRunner. E.g.
     runner = HTMLTestRunner.HTMLTestRunner(
                 stream=fp,
                 title='My unit test',
-                description='This demonstrates the report output by HTMLTestRunner.'
+                description='This demonstrates the Report output by HTMLTestRunner.'
                 )
 
     # Use an external stylesheet.
@@ -134,9 +134,9 @@ stderr_redirector = OutputRedirector(sys.stderr)
 
 class Template_mixin(object):
     """
-    Define a HTML template for report customerization and generation.
+    Define a HTML template for Report customerization and generation.
 
-    Overall structure of an HTML report
+    Overall structure of an HTML Report
 
     HTML
     +------------------------+
@@ -290,13 +290,13 @@ function showOutput(id, name) {
 --></script>
 
 %(heading)s
-%(report)s
+%(Report)s
 %(ending)s
 
 </body>
 </html>
 """
-    # variables: (title, generator, stylesheet, heading, report, ending)
+    # variables: (title, generator, stylesheet, heading, Report, ending)
 
 
     # ------------------------------------------------------------------------
@@ -354,7 +354,7 @@ a.popup_link:hover {
 }
 
 }
-/* -- report ------------------------------------------------------------------------ */
+/* -- Report ------------------------------------------------------------------------ */
 #show_detail_line {
     margin-top: 3ex;
     margin-bottom: 1ex;
@@ -651,7 +651,7 @@ class HTMLTestRunner(Template_mixin):
 
     def getReportAttributes(self, result):
         """
-        Return report attributes as a list of (name, value).
+        Return Report attributes as a list of (name, value).
         Override this to add custom attributes.
         """
         startTime = str(self.startTime)[:19]

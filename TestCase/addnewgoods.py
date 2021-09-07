@@ -39,7 +39,7 @@ class addNewGoods(unittest.TestCase):
         driver.switch_to.frame('main-frame')
         #1.输入商品通用基本信息
         #输入商品名称
-        driver.find_element_by_name('goods_name').send_keys('洗衣机')
+        driver.find_element_by_name('goods_name').send_keys('洗衣机1')
         # 输入商品货号
         driver.find_element_by_name('goods_sn').send_keys('123456789')
         # 商品分类
@@ -93,9 +93,11 @@ class addNewGoods(unittest.TestCase):
         driver.find_element_by_xpath('//*[@id="gallery-tab"]').click()
         #添加图片描述
         driver.find_element_by_xpath('//*[@id="gallery-table"]/tbody/tr[3]/td/input[1]').send_keys('pal1')
+        sleep(10)
         img_input = driver.find_element_by_xpath('//*[@id="gallery-table"]/tbody/tr[3]/td/input[2]')
-        TestImgPath = dirname(dirname(abspath(__file__))) + os.sep + 'TestDate' + os.sep + 'goodsimg' + os.sep +'ga.png'
-        img_input.send_keys(TestImgPath)
+        # TestImgPath = dirname(dirname(abspath(__file__))) + os.sep + 'TestDate' + os.sep + 'goodsimg' + os.sep +'ga.png'
+        img_input.send_keys(r'D:\ECshop\TestData\goodsimg\ga.png')
+        sleep(5)
         #点击确定
         driver.find_element_by_xpath('//*[@id="tabbody-div"]/form/div/input[2]').click()
         sleep(5)
@@ -105,13 +107,12 @@ class addNewGoods(unittest.TestCase):
         driver.find_element_by_link_text("商品列表").click()
         driver.switch_to.default_content()
         driver.switch_to.frame('main-frame')
-        sleep(2)
-        try:
-            actualGoodsName = driver.find_element_by_xpath("//span[text()='%s']" %'洗衣机')
-            self.assertIsNotNone(actualGoodsName, 'msg')
-        except NoSuchElementException:
-            raise AssertionError("添加商品失败。 未出现在商品列表中！！")
-
+        sleep(5)
+        # try:
+        actualGoodsName = driver.find_element_by_xpath("//*[@id='listDiv']/table[1]/tbody/tr[3]/td[2]/span").text
+        self.assertEqual('洗衣机1',actualGoodsName, '添加商品失败。 未出现在商品列表中！！')
+        # except NoSuchElementException:
+        #     raise AssertionError("添加商品失败。 未出现在商品列表中！！")
 
 
 
