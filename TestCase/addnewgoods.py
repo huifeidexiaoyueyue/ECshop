@@ -1,14 +1,19 @@
 import unittest
+import os
 from time import sleep
 from selenium import webdriver
-
+from os.path import dirname,abspath
+from selenium.common.exceptions import NoSuchElementException
 
 class addNewGoods(unittest.TestCase):
     '''新增商品流程'''
     def setUp(self):
         self.driver = webdriver.Chrome()
+        self.base_url = 'http://192.168.13.129/ecshop/admin'
         self.driver.implicitly_wait(10)
-        self.base_url='http://192.168.0.123/ecshop/admin/'
+        self.driver.set_page_load_timeout(15)
+        self.driver.set_script_timeout(10)
+        self.driver.maximize_window()
         sleep(5)
 
     def test_something(self):
@@ -64,7 +69,53 @@ class addNewGoods(unittest.TestCase):
         send_miaoshu=driver.find_element_by_tag_name("body")
         send_miaoshu.click()
         send_miaoshu.send_keys('测试商品描述******')
-        #3.
+        #3.设置商品属性，点击“商品属性”选择类型为“家用电器”，并给商品添 两个“颜色”属性 ，分别填写值为 “白色”--属性价格10 , “红色”---属性价格20
+        #切回顶层框架
+        driver.switch_to.default_content()
+        #切换到属性框架
+        driver.switch_to.frame('main-frame')
+        #点击商品属性
+        driver.find_element_by_id('properties-tab').click()
+        sleep(1)
+        #选择商品类型是家用电器
+        driver.find_element_by_xpath('//*[@id="properties-table"]/tbody/tr[1]/td[2]/select/option[11]').click()
+        #“白色”--属性价格10
+        driver.find_element_by_xpath('//*[@id="attrTable"]/tbody/tr/td[2]/select/option[2]').click()
+        driver.find_element_by_xpath('//*[@id="attrTable"]/tbody/tr/td[2]/input[2]').send_keys(10)
+        #添加属性
+        driver.find_element_by_xpath('//*[@id="attrTable"]/tbody/tr/td[1]/a').click()
+        #“红色”---属性价格20
+        driver.find_element_by_xpath('//*[@id="attrTable"]/tbody/tr[2]/td[2]/select/option[3]').click()
+        driver.find_element_by_xpath('//*[@id="attrTable"]/tbody/tr[2]/td[2]/input[2]').send_keys(20)
+
+        #上传图片
+        #点击商品相册，给商品上传前置条件中的照片
+        driver.find_element_by_xpath('//*[@id="gallery-tab"]').click()
+        #添加图片描述
+        driver.find_element_by_xpath('//*[@id="gallery-table"]/tbody/tr[3]/td/input[1]').send_keys('pal1')
+        img_input = driver.find_element_by_xpath('//*[@id="gallery-table"]/tbody/tr[3]/td/input[2]')
+        TestImgPath = dirname(dirname(abspath(__file__))) + os.sep + 'TestDate' + os.sep + 'goodsimg' + os.sep +'ga.png'
+        img_input.send_keys(TestImgPath)
+        #点击确定
+        driver.find_element_by_xpath('//*[@id="tabbody-div"]/form/div/input[2]').click()
+        sleep(5)
+        # 再次进入商品列表断言该商品 存在于 列表中
+        driver.switch_to.default_content()
+        driver.switch_to.frame('menu-frame')
+        driver.find_element_by_link_text("商品列表").click()
+        driver.switch_to.default_content()
+        driver.switch_to.frame('main-frame')
+        sleep(2)
+        try:
+            actualGoodsName = driver.find_element_by_xpath("//span[text()='%s']" %'洗衣机')
+            self.assertIsNotNone(actualGoodsName, 'msg')
+        except NoSuchElementException:
+            raise AssertionError("添加商品失败。 未出现在商品列表中！！")
+
+
+
+
+
 
     def tearDown(self):
         self.driver.quit()
